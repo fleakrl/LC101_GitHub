@@ -1,0 +1,66 @@
+
+
+    div.container{
+    border: 1px solid black;
+    margin: auto;
+    background-color: black;
+}
+
+    table, th, td {
+        border: 1px solid black;
+        padding: 5px;
+        border-collapse: collapse;
+        font-weight: normal;
+        margin: 5px;
+    }
+
+
+    table#ATL tr:nth-child(even) {
+        background-color: turquoise;
+        color: teal
+    }
+    table#ATL tr:nth-child(odd) {
+        background-color: teal;
+        color: turquoise;
+    }
+
+    table#FOB tr:nth-child(even) {
+        background-color: red;
+        color: black;
+    }
+
+    table#FOB tr:nth-child(odd) {
+        background-color: black;
+        color: red;
+    }
+
+    table#MCR tr:nth-child(even) {
+        background-color: darkgray;
+        color: black;
+    }
+
+    table#MCR tr:nth-child(odd) {
+        background-color: black;
+        color: darkgray;
+    }
+
+    table#NW tr:nth-child(even) {
+        background-color: darkslategray;
+        color: plum;
+    }
+
+    table#NW tr:nth-child(odd) {
+        background-color: plum;
+        color: darkslategray;
+    }
+    .heat {
+        font-style: italic;
+        color: red;
+        font-family: "Impact";
+    }
+
+    .cool{
+        font-style: italic;
+        color: lightskyblue;
+        font-family: "Impact";
+    }
