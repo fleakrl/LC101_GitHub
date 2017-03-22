@@ -16,26 +16,40 @@
 #
 import webapp2
 import caesar
+import cgi
+
+
+def build_page(textarea_content):
+    # website formatting
+    heading = "<h1> Welcome to Web Caesar </h1>"
+    rotation_label = "<label> Rotate by: </label>"
+    rotation_input = "<input type = 'number' name = 'rotation'/>"
+
+    message_label = "<label>Please input a message to encrypt:</label><p/>"
+    textarea = "<textarea name = 'message'>" + textarea_content + "</textarea>"
+    submit = "<input type = submit />"
+
+    form = ("<form method = 'post'>" + "<p>" + rotation_label + rotation_input
+            + "</p>" + message_label + textarea + "</p>" + submit + "</form>")
+
+    return heading + form
 
 class MainHandler(webapp2.RequestHandler):
+
     def get(self):
-        #website formatting
-        heading = "<h1> Welcome to Web Caesar </h1>"
 
-        textarea = "<textarea name = 'message'></textarea>"
-        submit = "<input type = submit />"
-
-        form = "<form method = 'post'>" + textarea + "</p>" + submit + "</form>"
-
-        self.response.write(heading + form)
+        content = build_page("")
+        self.response.write(content)
 
     def post(self):
         # Section for the actual encryption
         message = self.request.get("message")
-        rotation = 13
+        rotation = int(self.request.get("rotation"))
         encrypted_message = caesar.encrypt(message, rotation)
+        escaped_message = cgi.escape(encrypted_message)
+        content = build_page(escaped_message)
 
-        self.response.write("The encrypted message is: " + encrypted_message)
+        self.response.write(content)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
