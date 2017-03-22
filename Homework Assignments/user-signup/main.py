@@ -17,31 +17,39 @@
 import webapp2
 import cgi
 
-def build_page():
+
+def build_page(error=""):
     heading = "<h1>User Signup</h1>"
     username_label = "<label>Username: </label>"
     username_input = "<input type = 'text' name = 'username'/>"
     password_label = "<label>Password: </label>"
     password_input = "<input type = 'password' name = 'password'/>"
     password_verify_label = "<label>Verify Password: </label>"
-    password_verify_input = "<input type = 'password' name = 'password'/>"
+    password_verify_input = "<input type = 'password' name = 'password_verify'/>"
     email_label = "<label>Email (optional): </label>"
     email_input = "<input type = 'text' name = 'email'/>"
 
     submit = "<input type = submit />"
 
+    error_messages = "<div style='color: red'> %(errors)s </div>"
+
     form = (
-            "<form>" + username_label + username_input + "<p/>" + password_label +
+            "<form method = 'post'>" + username_label + username_input + "<p/>" + password_label +
             password_input + "<p/>" + password_verify_label + password_verify_input +
             "<p/>" + email_label + email_input + "<p/>" + submit
             )
 
-    return heading + form
+    return heading + form, error
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         content = build_page()
-        self.response.write(content)
+        self.response.write(content[0] % {"error": content[1]})
+
+    def post(self):
+        username = cgi.escape(self.request.get('username'))
+        email = cgi.escape(self.request.get('email'))
+        self.response.write("thanks for submitting!")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
