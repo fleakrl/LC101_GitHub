@@ -21,6 +21,7 @@ import cgi
 
 def build_page(textarea_content):
     # website formatting
+
     heading = "<h1> Welcome to Web Caesar </h1>"
     rotation_label = "<label> Rotate by: </label>"
     rotation_input = "<input type = 'number' name = 'rotation'/>"
@@ -29,8 +30,10 @@ def build_page(textarea_content):
     textarea = "<textarea name = 'message'>" + textarea_content + "</textarea>"
     submit = "<input type = submit />"
 
+    footer = "<footer> <p>Created By: Rebecca Fleak</p><p>&copy March 2017</p>"
+
     form = ("<form method = 'post'>" + "<p>" + rotation_label + rotation_input
-            + "</p>" + message_label + textarea + "</p>" + submit + "</form>")
+            + "</p>" + message_label + textarea + "</p>" + submit + footer + "</form>")
 
     return heading + form
 
