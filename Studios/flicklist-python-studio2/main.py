@@ -30,7 +30,8 @@ class Index(webapp2.RequestHandler):
             <input type = 'submit' value = 'Add it'>
          </form>
         """
-        self.response.write(header + form + footer)
+        self.response.write(header + form + footer
+
 
 class AddMovie(webapp2.RequestHandler):
 
