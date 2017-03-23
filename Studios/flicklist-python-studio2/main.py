@@ -5,7 +5,7 @@ header = """
 <html>
 
 <head>
-    <title>Flicklist</flicklist>
+    <title>Flicklist</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@ footer = """
 class Index(webapp2.RequestHandler):
 
     def get(self):
-          form = """
+        form = """
           <h3> Edit My Watchlist </h3>
 
           <form action ='/add' method = 'post'>
@@ -30,7 +30,7 @@ class Index(webapp2.RequestHandler):
             <input type = 'submit' value = 'Add it'>
          </form>
         """
-            self.response.write(header + form + footer)
+        self.response.write(header + form + footer)
 
 class AddMovie(webapp2.RequestHandler):
 
