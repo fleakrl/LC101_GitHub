@@ -70,7 +70,7 @@ class Index(webapp2.RequestHandler):
             <label> I would like to remove  """ + generate_dropdown() + """
                 from my watchlist.
             </label>
-            <input type = 'submit' value = 'cross it'>
+            <input type = 'submit' value = 'remove it'>
          </form>
         """
 
