@@ -34,12 +34,17 @@ terrible_movies = [
     "Nine Lives"
 ]
 
+my_watchlist = ["Little Mermaid",
+              "Beauty and the Beast",
+              "Mulan",
+              "Lion King",
+              "Sleeping Beauty",
+              "Peter Pan"]
 
 def getCurrentWatchlist():
     """ Returns the user's current watchlist """
-
     # for now, we are just pretending
-    return [ "Star Wars", "Minions", "Freaky Friday", "My Favorite Martian" ]
+    return my_watchlist
 
 
 class Index(webapp2.RequestHandler):
@@ -65,9 +70,9 @@ class Index(webapp2.RequestHandler):
 
         # a form for crossing off movies
         # (first we build a dropdown from the current watchlist items)
-        crossoff_options = ""
+        movie_options = ""
         for movie in getCurrentWatchlist():
-            crossoff_options += '<option value="{0}">{0}</option>'.format(movie)
+            movie_options += '<option value="{0}">{0}</option>'.format(movie)
 
         crossoff_form = """
         <form action="/cross-off" method="post">
@@ -75,12 +80,13 @@ class Index(webapp2.RequestHandler):
                 I want to cross off
                 <select name="crossed-off-movie"/>
                     {0}
+                    <option value = 'Not on List'>'Not on List'</option>
                 </select>
                 from my watchlist.
             </label>
             <input type="submit" value="Cross It Off"/>
         </form>
-        """.format(crossoff_options)
+        """.format(movie_options)
 
         # if we have an error, make a <p> to display it
         error = self.request.get("error")
@@ -95,7 +101,6 @@ class Index(webapp2.RequestHandler):
         content = page_header + main_content + page_footer
         self.response.write(content)
 
-
 class AddMovie(webapp2.RequestHandler):
     """ Handles requests coming in to '/add'
         e.g. www.flicklist.com/add
@@ -107,14 +112,19 @@ class AddMovie(webapp2.RequestHandler):
 
         # TODO 2
         # if the user typed nothing at all, redirect and yell at them
-
+        if new_movie == "":
+            error = "Invalid input: Please enter a movie title"
+            self.redirect("/?error=" + error)
 
         # TODO 3
         # if the user wants to add a terrible movie, redirect and yell at them
-
+        if new_movie in terrible_movies:
+            error = "That is a terrible movie!  Do not add it to your list!"
+            self.redirect("/?error=" + error)
 
         # TODO 1
         # 'escape' the user's input so that if they typed HTML, it doesn't mess up our site
+        new_movie = cgi.escape(new_movie)
 
         # build response content
         new_movie_element = "<strong>" + new_movie + "</strong>"
@@ -132,7 +142,7 @@ class CrossOffMovie(webapp2.RequestHandler):
         # look inside the request to figure out what the user typed
         crossed_off_movie = self.request.get("crossed-off-movie")
 
-        if (crossed_off_movie in getCurrentWatchlist()) == False:
+        if crossed_off_movie not in getCurrentWatchlist():
             # the user tried to cross off a movie that isn't in their list,
             # so we redirect back to the front page and yell at them
 
@@ -141,6 +151,9 @@ class CrossOffMovie(webapp2.RequestHandler):
 
             # redirect to homepage, and include error as a query parameter in the URL
             self.redirect("/?error=" + error)
+
+
+
 
         # if we didn't redirect by now, then all is well
         crossed_off_movie_element = "<strike>" + crossed_off_movie + "</strike>"
