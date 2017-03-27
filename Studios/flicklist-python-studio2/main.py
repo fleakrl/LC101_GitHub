@@ -66,6 +66,7 @@ class Index(webapp2.RequestHandler):
             </label>
             <input type = 'submit' value = 'cross it'>
          </form>
+         <br>
          <form action ='/delete' method = 'post'>
             <label> I would like to remove  """ + generate_dropdown() + """
                 from my watchlist.
@@ -99,6 +100,10 @@ class CrossOffMovie(webapp2.RequestHandler):
         return_message = movie_name + " has been crossed off your watchlist."
 
         self.response.write(header + return_message + footer)
+
+class deleteMovie():
+    def post(self):
+        movie_removed = self.request.get()
 
 
 app = webapp2.WSGIApplication([
