@@ -16,9 +16,27 @@
 #
 import webapp2
 import cgi
+import validation_helper_functions
+page_header = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Signup</title>
+    <style type="text/css">
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+"""
 
+page_footer = """
+</body>
+</html>
+"""
 
-def build_page(error=""):
+def build_page():
     heading = "<h1>User Signup</h1>"
     username_label = "<label>Username: </label>"
     username_input = "<input type = 'text' name = 'username'/>"
@@ -31,25 +49,46 @@ def build_page(error=""):
 
     submit = "<input type = submit />"
 
-    error_messages = "<div style='color: red'> %(errors)s </div>"
-
     form = (
             "<form method = 'post'>" + username_label + username_input + "<p/>" + password_label +
             password_input + "<p/>" + password_verify_label + password_verify_input +
             "<p/>" + email_label + email_input + "<p/>" + submit
             )
 
-    return heading + form, error
+    return heading + form
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         content = build_page()
-        self.response.write(content[0] % {"error": content[1]})
+
+        error = self.request.get("error")
+
+        error_msg = ""
+        if error:
+            error_msg = "<div>" + error + "</div>"
+
+        self.response.write(page_header + content + error_msg + page_footer)
 
     def post(self):
         username = cgi.escape(self.request.get('username'))
+        password = cgi.escape(self.request.get('password'))
+        password_verify = cgi.escape(self.request.get('password_verify'))
         email = cgi.escape(self.request.get('email'))
         self.response.write("thanks for submitting!")
+
+        # make sure user input is not empty
+        if validation_helper_functions.empty_input(username, password, password_verify) is not None:
+            error_message ="<p class = 'error'>" +\
+                           validation_helper_functions.empty_input(username, password, password_verify) +\
+                           "</p>"
+            self.redirect("/?error=" + error_message)
+
+        # make sure password and password confirm match
+        if validation_helper_functions.passwords_match_verification(password,password_verify) is not None:
+            error_message = "<p class = 'error'>" + \
+                            validation_helper_functions.passwords_match_verification(password,password_verify) +\
+                            "</p>"
+            self.redirect("/?error=" + error_message)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
