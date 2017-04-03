@@ -5,7 +5,7 @@ import os
 
 # set up jinja
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
 
 # a list of movies that nobody should be allowed to watch
 terrible_movies = [
@@ -15,12 +15,14 @@ terrible_movies = [
     "Nine Lives"
 ]
 
+# define current watchlist
+current_watch_list = [ "Star Wars", "Minions", "Freaky Friday", "My Favorite Martian" ]
 
 def getCurrentWatchlist():
     """ Returns the user's current watchlist """
 
     # for now, we are just pretending
-    return [ "Star Wars", "Minions", "Freaky Friday", "My Favorite Martian" ]
+    return current_watch_list
 
 
 class Index(webapp2.RequestHandler):
@@ -54,6 +56,8 @@ class AddMovie(webapp2.RequestHandler):
 
         # 'escape' the user's input so that if they typed HTML, it doesn't mess up our site
         new_movie_escaped = cgi.escape(new_movie, quote=True)
+
+        current_watch_list.append(new_movie_escaped)
 
         # TODO 1
         # Use a template to render the confirmation message
