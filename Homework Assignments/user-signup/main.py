@@ -36,16 +36,16 @@ page_footer = """
 </html>
 """
 
-def build_page():
+def build_page(username_from_user, email):
     heading = "<h1>User Signup</h1>"
     username_label = "<label>Username: </label>"
-    username_input = "<input type = 'text' name = 'username'/>"
+    username_input = "<input type = 'text' name = 'username' value = '{0}'/>".format(username_from_user)
     password_label = "<label>Password: </label>"
     password_input = "<input type = 'password' name = 'password'/>"
     password_verify_label = "<label>Verify Password: </label>"
     password_verify_input = "<input type = 'password' name = 'password_verify'/>"
     email_label = "<label>Email (optional): </label>"
-    email_input = "<input type = 'text' name = 'email'/>"
+    email_input = "<input type = 'text' name = 'email' value = '{0}'/>".format(email)
 
     submit = "<input type = submit />"
 
@@ -59,13 +59,18 @@ def build_page():
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        content = build_page()
+        username_from_user = self.request.get("username")
+        email = self.request.get("email")
 
         error = self.request.get("error")
 
         error_msg = ""
         if error:
             error_msg = "<div>" + error + "</div>"
+            username_from_user = self.request.get("username")
+            email = self.request.get("email")
+
+        content = build_page(username_from_user, email)
 
         self.response.write(page_header + content + error_msg + page_footer)
 
@@ -88,7 +93,7 @@ class MainHandler(webapp2.RequestHandler):
             error_message = "<p class = 'error'>" + \
                             validation_helper_functions.passwords_match_verification(password,password_verify) +\
                             "</p>"
-            self.redirect("/?error=" + error_message)
+            self.redirect("/?error=" + error_message, "/?username=" + username, "/?email=" + email)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)

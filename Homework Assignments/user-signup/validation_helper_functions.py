@@ -1,4 +1,5 @@
 import cgi
+import re
 
 
 def empty_input(username, password, password_verify):
@@ -21,3 +22,17 @@ def passwords_match_verification(password_user_input, password_confirm_user_inpu
         return error_message
     else:
         return None
+
+
+def validate_username(username):
+    user_re = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+    return user_re.match(username)
+
+
+def validate_password(password):
+    user_re = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+    return user_re.match(password)
+
+def validate_email(email):
+    user_re = re.compile(r"^[\S]+@[\S]+.[\S]+$")
+    return user_re.match(email)
