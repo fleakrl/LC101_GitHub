@@ -39,11 +39,16 @@ page_footer = """
 def build_page(username_from_user, email):
     heading = "<h1>User Signup</h1>"
     username_label = "<label>Username: </label>"
-    username_input = "<input type = 'text' name = 'username' value = '{0}'/>".format(username_from_user)
+    username_input = "<input type = 'text' name = 'username' id = 'username_id' " \
+                     "required data-errormessage-value-missing='Something is missing'/>".format(username_from_user)
     password_label = "<label>Password: </label>"
-    password_input = "<input type = 'password' name = 'password'/>"
+    password_input = "<input type = 'password' name = 'password'" \
+                     "required placeholder='' oninvalid='this.setCustomValidity('Enter a valid password')" \
+                     "'oninput='setCustomValidity('')'/>"
     password_verify_label = "<label>Verify Password: </label>"
-    password_verify_input = "<input type = 'password' name = 'password_verify'/>"
+    password_verify_input = "<input type = 'password' name = 'password_verify'" \
+                            "required placeholder='' oninvalid='this.setCustomValidity('Enter User Name Here') " \
+                            "'oninput='setCustomValidity(validate_password(password)'/>"
     email_label = "<label>Email (optional): </label>"
     email_input = "<input type = 'text' name = 'email' value = '{0}'/>".format(email)
 
