@@ -26,7 +26,7 @@ class MainHandler(webapp2.RequestHandler):
         if username_error == "" and password_error == "" and password_verify_error == "" and email_error == "":
             self.redirect('/accepted')
 
-        # if user inputs are not valid, respond by rebuilding the form
+        # if user inputs are not valid, respond by rebuilding the form with error messages
         self.response.out.write(helper_functions.build_form(username_error, password_error,
                                                             password_verify_error, email_error, username, email))
 
