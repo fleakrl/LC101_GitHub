@@ -15,6 +15,7 @@ def build_form(username_error="", password_error="", password_verify_error="", e
             </style>
         </head>
         <body>
+            <h1> User Signup </h1>
             <form method = "post">
                 <table>
                     <tr>
@@ -80,8 +81,11 @@ def validate_password_verify(password_verify, password):
 
 
 def validate_email(email):
-    user_re = re.compile(r"^[\S]+@[\S]+.[\S]+$")
+    if email == "":
+        return ""
+    else:
+        user_re = re.compile(r"^[\S]+@[\S]+.[\S]+$")
 
-    if user_re.match(email):
-        return cgi.escape("")
-    return cgi.escape("email not correct format")
+        if user_re.match(email):
+            return cgi.escape("")
+        return cgi.escape("email not correct format")

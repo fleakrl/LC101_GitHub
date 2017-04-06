@@ -27,7 +27,8 @@ class MainHandler(webapp2.RequestHandler):
 
 class Acceptance(webapp2.RequestHandler):
     def get(self):
-        content = "Thanks for submitting!"
+        header = "<h1>User Signup Confirmed</h1>"
+        content = header + "Thanks for submitting!"
         self.response.write(content)
 
 app = webapp2.WSGIApplication([
