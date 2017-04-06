@@ -25,15 +25,39 @@ def passwords_match_verification(password_user_input, password_confirm_user_inpu
 
 
 def validate_username(username):
-    user_re = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-    return user_re.match(username)
-
+    if username == "":
+        return cgi.escape("Username cannot be blank.")
+    else:
+        user_re = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+        if user_re.match(username):
+            return cgi.escape("")
+        else:
+            return cgi.escape("Username not correct format.")
 
 def validate_password(password):
-    user_re = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-    return user_re.match(password)
+    if password == "":
+        return cgi.escape("Password cannot be blank.")
+    else:
+        user_re = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+        if user_re.match(password):
+            return cgi.escape("")
+        else:
+            return cgi.escape("Password not correct format")
+
+
+def validate_password_verify(password_verify, password):
+    if password_verify == "":
+        return cgi.escape("Password Verify cannot be blank")
+    else:
+        if password_verify == password:
+            return cgi.escape("")
+        else:
+            return cgi.escape("Password and password verify must match")
 
 
 def validate_email(email):
     user_re = re.compile(r"^[\S]+@[\S]+.[\S]+$")
-    return user_re.match(email)
+
+    if user_re.match(email):
+        return cgi.escape("")
+    return cgi.escape("email not correct format")
