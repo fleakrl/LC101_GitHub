@@ -16,7 +16,7 @@
 #
 import webapp2
 import cgi
-import validation_helper_functions
+import helper_functions
 page_header = """
 <!DOCTYPE html>
 <html>
@@ -87,16 +87,16 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write("thanks for submitting!")
 
         # make sure user input is not empty
-        if validation_helper_functions.empty_input(username, password, password_verify) is not None:
-            error_message ="<p class = 'error'>" +\
-                           validation_helper_functions.empty_input(username, password, password_verify) +\
+        if helper_functions.empty_input(username, password, password_verify) is not None:
+            error_message ="<p class = 'error'>" + \
+                           helper_functions.empty_input(username, password, password_verify) +\
                            "</p>"
             self.redirect("/?error=" + error_message)
 
         # make sure password and password confirm match
-        if validation_helper_functions.passwords_match_verification(password,password_verify) is not None:
+        if helper_functions.passwords_match_verification(password, password_verify) is not None:
             error_message = "<p class = 'error'>" + \
-                            validation_helper_functions.passwords_match_verification(password,password_verify) +\
+                            helper_functions.passwords_match_verification(password, password_verify) +\
                             "</p>"
             self.redirect("/?error=" + error_message, "/?username=" + username, "/?email=" + email)
 
