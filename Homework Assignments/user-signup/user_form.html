@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+            .error {
+                color: red;
+            }
+    </style>
+</head>
+
+<body>
+<form>
+    <table>
+        <tr>
+            <td><label>Username:</label></td>
+            <td><input type="text" name="username" required/></td>
+            <td><span class='error'> %s </td>
+        </tr>
+        <tr>
+            <td><label>Password:</label></td>
+            <td><input type="password" name="password" required/></td>
+            <td><span class="error">%s</span></td>
+        </tr>
+        <tr>
+            <td><label>Password Verify:</label></td>
+            <td><input type="password" name="password_verify" required/></td>
+            <td><span class="error">%s</span></td>
+        </tr>
+        <tr>
+            <td><label>Email (Optional):</label></td>
+            <td><input type="email" name="email"/></td>
+            <td><span class="error">%s</span></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
