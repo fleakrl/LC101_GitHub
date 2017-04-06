@@ -2,7 +2,8 @@ import cgi
 import re
 
 
-def build_form(username_error="", password_error="", password_verify_error="", email_error=""):
+def build_form(username_error="", password_error="", password_verify_error="",
+               email_error="", username_input= "", email_input=""):
     return str("""
     <!DOCTYPE html>
     <html>
@@ -20,7 +21,7 @@ def build_form(username_error="", password_error="", password_verify_error="", e
                 <table>
                     <tr>
                         <td><label>Username:</label></td>
-                        <td><input type="text" name="username" required/></td>
+                        <td><input type="text" name="username" value = "%s" required/></td>
                         <td><span class="error">%s</span></td>
                     </tr>
                     <tr>
@@ -35,7 +36,7 @@ def build_form(username_error="", password_error="", password_verify_error="", e
                     </tr>
                     <tr>
                         <td><label>Email (Optional):</label></td>
-                        <td><input type="text" name="email"/></td>
+                        <td><input type="text" name="email" value = "%s"/></td>
                         <td><span class="error">%s</span></td>
                     </tr>
                 </table>
@@ -45,7 +46,7 @@ def build_form(username_error="", password_error="", password_verify_error="", e
 
         </body>
     </html>
-    """ % (username_error, password_error, password_verify_error, email_error))
+    """ % (username_input, username_error, password_error, password_verify_error, email_input, email_error))
 
 
 def validate_username(username):
@@ -73,11 +74,10 @@ def validate_password(password):
 def validate_password_verify(password_verify, password):
     if password_verify == "":
         return cgi.escape("Password Verify cannot be blank")
+    elif password_verify == password:
+        return cgi.escape("")
     else:
-        if password_verify == password:
-            return cgi.escape("")
-        else:
-            return cgi.escape("Password and password verify must match")
+        return cgi.escape("Password and password verify must match")
 
 
 def validate_email(email):
