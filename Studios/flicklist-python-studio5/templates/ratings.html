@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Movies I Have Watched:</h2>
+
+<ul>
+{% for movie in movies %}
+    <li>
+        <h3>{{ movie }}</h3>
+
+        <!--
+        TODO 3
+        Each of these list items should contain a form that submits to /ratings
+        The form should contain:
+            - label that says "My Rating"
+            - a dropdown menu with 6 options:
+                - "How was it?"
+                - *
+                - **
+                - ***
+                - ****
+                - *****
+            - a hidden input to tell the back-end which movie we are rating
+            - a submit button that says "Rate it!"
+        -->
+
+        <form method = "post">
+            <label>My Rating <select name = "movie_rating">
+                <option>Rate It</option>
+                <option>&#42;</option>
+                <option>&#42;&#42;</option>
+                <option>&#42;&#42;&#42;</option>
+                <option>&#42;&#42;&#42;&#42;</option>
+                <option>&#42;&#42;&#42;&#42;&#42;</option>
+            </select>
+                <input type = hidden name = "rated_movie" value = "{{movie}}" />
+
+            </label>
+            <button name = "rating" type = "submit">Rate It! </button>
+        </form>
+    </li>
+
+{% endfor %}
+</ul>
+{% endblock %}
