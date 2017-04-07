@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% set max_star_rating = 5 %}
+
 {% block content %}
 <h2>Movies I Have Watched:</h2>
 
@@ -26,12 +28,12 @@
 
         <form method = "post">
             <label>My Rating <select name = "movie_rating">
-                <option>Rate It</option>
-                <option>&#42;</option>
-                <option>&#42;&#42;</option>
-                <option>&#42;&#42;&#42;</option>
-                <option>&#42;&#42;&#42;&#42;</option>
-                <option>&#42;&#42;&#42;&#42;&#42;</option>
+                <option>How was it?</option>
+                    <option>&#42;</option>
+                    <option>&#42;&#42;</option>
+                    <option>&#42;&#42;&#42;</option>
+                    <option>&#42;&#42;&#42;&#42;</option>
+                    <option>&#42;&#42;&#42;&#42;&#42;</option>
             </select>
                 <input type = hidden name = "rated_movie" value = "{{movie}}" />
 
