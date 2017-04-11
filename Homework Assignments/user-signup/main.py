@@ -39,5 +39,5 @@ class Acceptance(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/accepted',Acceptance)
+    ('/accepted', Acceptance)
 ], debug=True)
