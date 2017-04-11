@@ -22,7 +22,7 @@ from google.appengine.ext import db
 
 # set up jinja
 template_dir = os.path.join(os.path.dirname(__file__), "Templates")
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
+jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=True)
 
 
 class BlogPost(db.Model):
@@ -33,7 +33,6 @@ class BlogPost(db.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
-
 
 
 app = webapp2.WSGIApplication([
