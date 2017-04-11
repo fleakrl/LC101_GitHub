@@ -14,11 +14,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 import webapp2
+import jinja2
+import os
+from google.appengine.ext import db
+
+# set up jinja
+template_dir = os.path.join(os.path.dirname(__file__), "Templates")
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
+
+
+class BlogPost(db.Model):
+    title = db.StringProperty(required=True)
+    content = db.StringProperty(required=True)
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
+
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
