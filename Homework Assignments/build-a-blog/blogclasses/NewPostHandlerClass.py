@@ -1,5 +1,6 @@
 import webapp2
 import setup_jinja
+import cgi
 
 from blogclasses import BlogPostClass
 
@@ -7,7 +8,7 @@ jinja_env = setup_jinja.setup_jinja()
 
 
 class NewPostHandler(webapp2.RequestHandler):
-    """ Handles requests coming in to '/' 
+    """ Handles requests coming in to '/new-post' 
     """
     def get(self):
         t = jinja_env.get_template("new_blog_post.html")
@@ -26,8 +27,6 @@ class NewPostHandler(webapp2.RequestHandler):
 
         """ Adds a new blog post to the database & redirects to main page """
         blog_post = BlogPostClass.BlogPost(title = new_post_title, content = new_post_content)
-        # blog_post.title = new_post_title
-        # blog_post.content = new_post_content
         blog_post.put()
 
         self.redirect('/')

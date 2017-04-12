@@ -6,11 +6,12 @@
 {% for post in blogposts %}
 
     <form>
-        <h2><a href="/blog-post?blogpostid={{post.key().id()}}">{{post.title}}</a></h2>
         <table>
-
             <tr>
+                <td>{{post.title}}</td>
                 <td>{{post.content}}</td>
+                <td>{{post.created}}</td>
+                <td>{{post.key().id()}}</td>
             </tr>
         </table>
     </form>
