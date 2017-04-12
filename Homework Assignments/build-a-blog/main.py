@@ -16,25 +16,15 @@
 #
 
 import webapp2
-import jinja2
-import os
-from google.appengine.ext import db
+from blogclasses import MainHandlerClass
+from blogclasses import BlogPostHandlerClass
+from blogclasses import NewPostHandlerClass
 
-# set up jinja
-template_dir = os.path.join(os.path.dirname(__file__), "Templates")
-jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=True)
-
-
-class BlogPost(db.Model):
-    title = db.StringProperty(required=True)
-    content = db.StringProperty(required=True)
-
-
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.write('Hello world!')
 
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    webapp2.Route('/', MainHandlerClass.MainHandler),
+    webapp2.Route('/blog-post', BlogPostHandlerClass.BlogPostHandler),
+    webapp2.Route('/blog-post/<blogpostid>', BlogPostHandlerClass.BlogPostHandler),
+    webapp2.Route('/new-post', NewPostHandlerClass.NewPostHandler)
 ], debug=True)
