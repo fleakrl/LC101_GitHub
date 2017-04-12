@@ -9,7 +9,7 @@ class MainHandler(webapp2.RequestHandler):
     """ Handles requests coming in to '/' 
     """
     def get(self):
-        blogposts = db.GqlQuery("SELECT * FROM BlogPost")
+        blogposts = db.GqlQuery("SELECT title, content FROM BlogPost ORDER BY created DESC LIMIT 5")
         t = jinja_env.get_template("frontpage.html")
         content = t.render(blogposts = blogposts)
         self.response.write(content)
