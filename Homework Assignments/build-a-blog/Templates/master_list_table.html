@@ -2,19 +2,23 @@
 
 {% block content %}
 
-<ul>
+
 {% for post in blogposts %}
 
-    <form>
-        <table>
-            <tr>
-                <td>{{post.title}}</td>
-                <td>{{post.content}}</td>
-                <td>{{post.created}}</td>
-                <td>{{post.key().id()}}</td>
-            </tr>
-        </table>
-    </form>
+<form>
+    <table>
+        <tr>
+            <td><h1>{{post.title}}</h1></td>
+        </tr>
+        <tr>
+            <td>{{post.created}}</td>
+        </tr>
+        <tr>
+            <td>{{post.content}}</td>
+        </tr>
+
+    </table>
+</form>
 
 {% endfor %}
 
