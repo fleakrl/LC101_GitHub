@@ -6,12 +6,13 @@
     <table>
         <tr>
             <td><label>Title:</label></td>
-            <td><input type="text" name="post_title"/></td>
-            <td><input type=/> </td>
+            <td><input type="text" name="post_title" value="{{title}}"/></td>
+            <td><span class='error'> {{titleerror}} </span></td>
         </tr>
         <tr>
             <td><label>Post Content:</label></td>
-            <td><textarea name="post_content_text"></textarea></td>
+            <td><textarea name="post_content_text" value = "{{content}}" >{{content}}</textarea></td>
+            <td><span class='error'> {{contenterror}} </span></td>
         </tr>
     </table>
     <input type="submit" value ="Post It"/>
