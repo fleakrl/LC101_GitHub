@@ -4,7 +4,8 @@ from models import Post, User
 import hashutils
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
+jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=True)
+
 
 class BlogHandler(webapp2.RequestHandler):
     """ Utility class for gathering various useful methods that are used by most request handlers """
@@ -19,15 +20,12 @@ class BlogHandler(webapp2.RequestHandler):
             Get all posts by a specific user, ordered by creation date (descending).
             The user parameter will be a User object.
         """
-
-        # TODO - filter the query so that only posts by the given user
-        query = db.GqlQuery("SELECT * FROM Post WHERE author.key = '%s'" % str(user.key()))
-
-        return query.fetch(limit = limit, offset = offset)
+        query = Post.gql("where author=:1", user)
+        return query.fetch(limit=limit, offset=offset)
 
     def get_user_by_name(self, username):
         """ Get a user object from the db, based on their username """
-        user = db.GqlQuery("SELECT * FROM User WHERE username = '%s'" % username)
+        user = db.GqlQuery("SELECT * FROM User WHERE username = :1", username)
         if user:
             return user.get()
 
@@ -62,17 +60,17 @@ class BlogHandler(webapp2.RequestHandler):
         if not self.user and self.request.path in auth_paths:
             self.redirect('/login')
 
-class IndexHandler(BlogHandler):
 
+class IndexHandler(BlogHandler):
     def get(self):
         """ List all blog users """
         users = User.all()
         t = jinja_env.get_template("index.html")
-        response = t.render(users = users)
+        response = t.render(users=users)
         self.response.write(response)
 
-class BlogIndexHandler(BlogHandler):
 
+class BlogIndexHandler(BlogHandler):
     # number of blog posts per page to display
     page_size = 5
 
@@ -101,7 +99,7 @@ class BlogIndexHandler(BlogHandler):
         else:
             prev_page = None
 
-        if len(posts) == self.page_size and Post.all().count() > offset+self.page_size:
+        if len(posts) == self.page_size and Post.all().count() > offset + self.page_size:
             next_page = page + 1
         else:
             next_page = None
@@ -109,16 +107,16 @@ class BlogIndexHandler(BlogHandler):
         # render the page
         t = jinja_env.get_template("blog.html")
         response = t.render(
-                    posts=posts,
-                    page=page,
-                    page_size=self.page_size,
-                    prev_page=prev_page,
-                    next_page=next_page,
-                    username=username)
+            posts=posts,
+            page=page,
+            page_size=self.page_size,
+            prev_page=prev_page,
+            next_page=next_page,
+            username=username)
         self.response.out.write(response)
 
-class NewPostHandler(BlogHandler):
 
+class NewPostHandler(BlogHandler):
     def render_form(self, title="", body="", error=""):
         """ Render the new post form with or without an error, based on parameters """
         t = jinja_env.get_template("newpost.html")
@@ -149,8 +147,8 @@ class NewPostHandler(BlogHandler):
             error = "we need both a title and a body!"
             self.render_form(title, body, error)
 
-class ViewPostHandler(BlogHandler):
 
+class ViewPostHandler(BlogHandler):
     def get(self, id):
         """ Render a page with post determined by the id (via the URL/permalink) """
 
@@ -165,8 +163,8 @@ class ViewPostHandler(BlogHandler):
 
         self.response.out.write(response)
 
-class SignupHandler(BlogHandler):
 
+class SignupHandler(BlogHandler):
     def validate_username(self, username):
         USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
         if USER_RE.match(username):
@@ -227,7 +225,7 @@ class SignupHandler(BlogHandler):
         if existing_user:
             errors['username_error'] = "A user with that username already exists"
             has_error = True
-        elif (username and password and verify and (email is not None) ):
+        elif (username and password and verify and (email is not None)):
 
             # create new user object and store it in the database
             pw_hash = hashutils.make_pw_hash(username, password)
@@ -258,10 +256,8 @@ class SignupHandler(BlogHandler):
         else:
             self.redirect('/blog/newpost')
 
+
 class LoginHandler(BlogHandler):
-
-    # TODO - The login code here is mostly set up for you, but there isn't a template to log in
-
     def render_login_form(self, error=""):
         """ Render the login form with or without an error, based on parameters """
         t = jinja_env.get_template("login.html")
@@ -286,11 +282,12 @@ class LoginHandler(BlogHandler):
         else:
             self.render_login_form(error="Invalid password")
 
-class LogoutHandler(BlogHandler):
 
+class LogoutHandler(BlogHandler):
     def get(self):
         self.logout_user()
         self.redirect('/blog')
+
 
 app = webapp2.WSGIApplication([
     ('/', IndexHandler),
